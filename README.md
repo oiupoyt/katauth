@@ -1,1 +1,2 @@
 simple authentication mod for cracked minecraft servers that removes the need for loggin in with passwords, it instead logs your ip and only lets the player join from their first ip, some commands provided and pretty kool
+the documentation is pretty clear you wouldnt need ts
