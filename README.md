@@ -1,6 +1,3 @@
-![Modrinth Downloads](https://img.shields.io/modrinth/dt/MOD_ID?label=Modrinth%20dl)
-
-
 # 🛡️ KatIPAuth (KIA)
 
 **KatIPAuth** is a Paper plugin for **Minecraft 1.21.x** that locks accounts to IPs so little gremlins can’t just hack accounts and use them.  
