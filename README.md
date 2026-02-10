@@ -71,7 +71,7 @@ So you can watch account theft attempts like a Netflix series.
 - Shows stored IP
 - Shows last bind/login time
 #### /ipforce <player>
-- Removes IP binding
+- Removes current IP binding and uses the ip from next join
 - Does NOT kick the player
 #### /ipreload
 - Reloads config + Discord webhook
