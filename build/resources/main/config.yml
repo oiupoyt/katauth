@@ -1,5 +1,0 @@
-discord:
-  webhook: "PUT_WEBHOOK_URL_HERE"
-
-messages:
-  blocked: "&cLogin blocked: IP mismatch.If you believe this is a mistake contact the owner"
