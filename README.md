@@ -2,122 +2,84 @@
 
 [![Download on Modrinth](https://img.shields.io/modrinth/dt/katipauth?logo=modrinth)](https://modrinth.com/plugin/katipauth) [![GitHub](https://img.shields.io/github/v/release/oiupoyt/katIPAuth)](https://github.com/oiupoyt/katIPAuth)
 
-**KatIPAuth** is a Paper plugin for **Minecraft 1.19 to 1.21.x** that locks accounts to IPs so little gremlins can’t just hack accounts and use them.  
-No passwords. No auth plugins. Just **IP says yes or go home**.
+**KatIPAuth** is an optimized plugin for **Minecraft 1.19 to 1.21.x** that locks accounts to IPs. 
+It provides account security for cracked servers without the need for complex authentication plugins.  
+No passwords. No sessions. Just **IP says yes or go home**.
 
-Built for speed. Optimized. Async. Doesn’t freeze your server like half the plugins on Spigot.
+## 🚀 Key Features
 
-## 📥 Downloads
+### 👤 Identity Locking
+- **Automatic IP Binding**: Binds a player's username to their IP on the first join.
+- **Login Block**: Automatically disallows connections from mismatching IPs.
+- **Customizable Messages**: Configure kick messages with full color code support.
 
-- **Modrinth**: [Download from Modrinth](https://modrinth.com/plugin/katipauth)
-- **GitHub Releases**: [Download from GitHub](https://github.com/oiupoyt/katIPAuth/releases)
+### 📶 Subnet Locking (BETA)
+- **Dynamic IP Support**: Solving dynamic IP issues by allowing connections within the same subnet.
+- **Security Balance**: Provides flexibility for players whose IPs change within their ISP's range while still blocking unauthorized access from elsewhere.
 
----
+### 📡 Discord Alerts
+- Sends detailed embeds with player info, stored IP, attempted IP, and timestamps.
 
-## 🚀 What This Plugin Does (aka why this exists)
-
-servers have one big issue:
-
-> upon a account being hacked, its achievements are obtained unfairly
-
-KatIPAuth fixes that by **binding each username to an IP address**.
-
-### Core behavior
-- First join → IP gets saved
-- Next joins → must be same IP
-- Different IP?
-  - ❌ Login blocked **before they enter**
-  - 📢 Discord webhook alert gets fired
-  - 🧍 Player stays OUT. No spawn, no chunks, no funny business
-
----
-
-## 🔐 Features
-
-### 👤 Player Protection
-- Automatic IP binding on first join
-- Zero setup for players
-- Login blocked instantly on mismatch
-
-### 📡 Discord Alerts (cool embeds, not ugly spam)
-Sends a clean embed with:
-- Player username
-- Stored IP
-- Attempted IP
-- Timestamp
-- Server name  
-
-So you can watch account theft attempts like a Netflix series.
-
-### 🔄 Automatic Update Checking
-- Checks for updates on startup from GitHub
-- Sends a console message if a new version is available
-
-### ⚡ Performance
-- **Async disk I/O**
-- **Async webhook requests**
-- Never blocks the main thread
-- Safe on restarts and reloads
+### 🛠️ Maintenance & Utilities
+- **Config Updater**: Automatically adds missing settings and comments to your `config.yml` on plugin updates.
+- **Formatted Data**: View binding times in standard readable formats (`yyyy-MM-dd HH:mm:ss`).
 
 ---
 
 ## 🧾 Commands
 
 ### Player Commands
-
 #### /ipstatus
-- Shows if your IP is bound
-- Shows **when** it was bound
-- Does NOT leak your IP (privacy W)
+- Shows if your currently used IP is bound.
+- Shows exactly **when** it was bound in a readable format.
 
----
-
-### Admin Commands (OP only, no funny business)
-
-#### /ipreset <player>
-- Resets the player’s IP binding
-- Instantly kicks the player
-- Next login = new IP bound
+### Admin Commands (Permission: `ipauth.admin`)
 #### /ipinfo <player>
-- Shows stored IP
-- Shows last bind/login time
+- Displays the stored IP and original binding time for any player.
+#### /ipreset <player>
+- Resets a player's IP binding and kicks them instantly. The next IP they join with will be their new bound IP.
 #### /ipforce <player>
-- Removes current IP binding and uses the ip from next join
-- Does NOT kick the player
+- Removes a player's current IP binding. Unlike `/ipreset`, it does NOT kick the player; the next time they join, a new IP will be bound.
 #### /ipreload
-- Reloads config + Discord webhook
-- No restart needed because we’re civilized
+- Reloads the `config.yml` and re-initializes all settings (including Discord webhooks).
 
 ---
 
 ## ⚙️ Configuration
 
-`plugins/KatIPAuth/config.yml`
+This is a sample of the `config.yml` with explanations for each section:
 
 ```yaml
+# Discord Webhook URL for logging IP changes (optional)
 discord:
-  webhook: "YOUR_DISCORD_WEBHOOK_URL"
+  webhook: "PUT_WEBHOOK_URL_HERE"
 
+# Privacy settings
 privacy:
-  mask-ips: false  # If true, last two octets of IPs will be replaced with x (e.g. 192.168.xx.xx)
+  mask-ips: false # If true, last two octets of IPs will be replaced with x (e.g. 192.168.xx.xx)
 
+# Customizable messages
 messages:
-  blocked: "&cLogin blocked: IP mismatch. Contact staff if this is wrong."
+  blocked: "&cLogin blocked: IP mismatch.If you believe this is a mistake contact the owner"
+
+# Beta features (Use with caution)
+beta:
+  subnet-locking: false # If true, players can join as long as they are in the same /24 subnet (e.g. 192.168.1.*)
 ```
+
 ---
 
 ## ❓ FAQ
 
+### Q: Can dynamic IP players use this?
+- A: Yes. If their IP changes within the same subnet, you can enable **Subnet Locking** in the beta settings.
+*Reminder: Subnet Locking is a beta feature and may not be fully stable.*
+
 ### Q: Can VPNs bypass this?
-- A: VPN users get blocked unless they reset IP. That’s the point.
+- A: No. VPN users get blocked unless they join from an IP that matches their binding or the subnet.
 
-### Q: Can two people share one IP?
-- A: Yes. Same IP ≠ same username. This is IP → username, not the other way around.
+### Q: Is this compatible with other auth plugins?
+- A: Yes. It works independently before players even enter the server, making it a great second layer of security alongside plugins like AuthMe.
 
-### Q: Is this better than AuthMe?
-- A: Different goal. AuthMe = passwords.
-- KatIPAuth = identity locking using yo ip.
-- Use both if you’re paranoid lmao.
-
-### Q: Does this plugin check for updates?
-- A: Yes, it automatically checks GitHub for new versions on startup and logs a message if an update is available, directing you to Modrinth for downloads. This can be disabled in the config.
+### Q: How do I reset a player's IP?
+- A: Ask an admin to use `/ipreset <player>` to reset their IP binding and kick them. They can then rejoin to bind a new IP.
