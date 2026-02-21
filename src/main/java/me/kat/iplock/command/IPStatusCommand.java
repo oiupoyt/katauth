@@ -23,11 +23,6 @@ public class IPStatusCommand implements CommandExecutor {
             return true;
         }
 
-        if (!p.hasPermission("ipauth.admin")) {
-            p.sendMessage("You don't have permission to use this command.");
-            return true;
-        }
-
         IPStorage.Entry e = storage.get(p.getName());
         if (e == null) {
             p.sendMessage("No IP bound. Join with a valid IP to bind it.");
