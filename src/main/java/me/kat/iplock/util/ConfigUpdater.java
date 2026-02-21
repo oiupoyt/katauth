@@ -3,6 +3,8 @@ package me.kat.iplock.util;
 import me.kat.iplock.IPLockPlugin;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.List;
+
 public class ConfigUpdater {
 
     private final IPLockPlugin plugin;
@@ -25,6 +27,7 @@ public class ConfigUpdater {
         if (!config.isSet("discord.webhook")) {
             plugin.getLogger().info("Adding missing discord.webhook setting");
             config.set("discord.webhook", "PUT_WEBHOOK_URL_HERE");
+            config.setComments("discord", List.of("Discord Webhook URL for logging IP changes (optional)"));
             updated = true;
         }
 
@@ -32,6 +35,9 @@ public class ConfigUpdater {
         if (!config.isSet("privacy.mask-ips")) {
             plugin.getLogger().info("Adding missing privacy.mask-ips setting");
             config.set("privacy.mask-ips", false);
+            config.setComments("privacy", List.of("Privacy settings"));
+            config.setInlineComments("privacy.mask-ips",
+                    List.of("If true, last two octets of IPs will be replaced with x (e.g. 192.168.xx.xx)"));
             updated = true;
         }
 
@@ -40,6 +46,17 @@ public class ConfigUpdater {
             plugin.getLogger().info("Adding missing messages.blocked setting");
             config.set("messages.blocked",
                     "&cLogin blocked: IP mismatch. If you believe this is a mistake contact the owner");
+            config.setComments("messages", List.of("Customizable messages"));
+            updated = true;
+        }
+
+        // Check and add missing beta settings
+        if (!config.isSet("beta.subnet-locking")) {
+            plugin.getLogger().info("Adding missing beta.subnet-locking setting");
+            config.set("beta.subnet-locking", false);
+            config.setComments("beta", List.of("Beta features (Use with caution)"));
+            config.setInlineComments("beta.subnet-locking",
+                    List.of("If true, players can join as long as they are in the same /24 subnet (e.g. 192.168.1.*)"));
             updated = true;
         }
 
