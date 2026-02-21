@@ -15,7 +15,8 @@ public class IPReloadCommand implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender s, Command c, String l, String[] a) {
-        if (!s.isOp()) return true;
+        if (!s.hasPermission("ipauth.admin"))
+            return true;
         plugin.reloadConfig();
         storage.load();
         s.sendMessage("KIA reloaded.");
