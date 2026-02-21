@@ -16,6 +16,10 @@ public class IPResetCommand implements CommandExecutor {
         if (!(s instanceof Player))
             return true;
         Player p = (Player) s;
+        if (!p.hasPermission("ipauth.admin")) {
+            p.sendMessage("You don't have permission to use this command.");
+            return true;
+        }
         storage.remove(p.getName());
         p.kickPlayer("IP reset. Rejoin to bind new IP.");
         return true;
