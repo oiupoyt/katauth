@@ -1,8 +1,10 @@
 package me.kat.iplock.listener;
 
+import me.kat.iplock.IPLockPlugin;
 import me.kat.iplock.storage.IPStorage;
 import me.kat.iplock.discord.DiscordWebhook;
 import me.kat.iplock.util.LogManager;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -33,9 +35,12 @@ public class PreLoginListener implements Listener {
         }
 
         if (!entry.ip().equals(ip)) {
+            String kickMessage = ChatColor.translateAlternateColorCodes('&',
+                    IPLockPlugin.get().getConfig().getString("messages.blocked",
+                            "IP mismatch. Access denied. Contact the owner if you believe this is a mistake"));
             event.disallow(
                     AsyncPlayerPreLoginEvent.Result.KICK_OTHER,
-                    "IP mismatch. Access denied. Contact the owner if you believe this is a mistake");
+                    kickMessage);
 
             logManager.log(name, ip, false, "IP mismatch (Expected: " + logManager.formatIp(entry.ip()) + ")");
 
