@@ -1,8 +1,13 @@
+# KatIPAuth - A simple IP authentication plugin for Minecraft servers
+
+# Discord Webhook URL for logging IP changes (optional)
 discord:
   webhook: "PUT_WEBHOOK_URL_HERE"
 
+# Privacy settings
 privacy:
   mask-ips: false # If true, last two octets of IPs will be replaced with x (e.g. 192.168.xx.xx)
 
+# Customizable messages
 messages:
   blocked: "&cLogin blocked: IP mismatch.If you believe this is a mistake contact the owner"

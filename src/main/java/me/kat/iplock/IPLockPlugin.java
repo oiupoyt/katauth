@@ -2,6 +2,7 @@ package me.kat.iplock;
 
 import me.kat.iplock.listener.PreLoginListener;
 import me.kat.iplock.storage.IPStorage;
+import me.kat.iplock.util.ConfigUpdater;
 import me.kat.iplock.util.LogManager;
 import me.kat.iplock.util.VersionCheck;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,6 +18,10 @@ public class IPLockPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
+
+        // Update config with any missing settings
+        ConfigUpdater configUpdater = new ConfigUpdater(this);
+        configUpdater.updateConfig();
 
         storage = new IPStorage(this);
         storage.load();
