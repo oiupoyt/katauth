@@ -5,11 +5,19 @@ api-version: '1.19'
 commands:
   ipreset:
     description: Reset your IP binding
+    permission: ipauth.admin
   ipstatus:
     description: View IP bind status
   ipinfo:
     description: View another player's IP info
+    permission: ipauth.admin
   ipforce:
     description: Force-remove IP binding
+    permission: ipauth.admin
   ipreload:
     description: Reload plugin config
+    permission: ipauth.admin
+permissions:
+  ipauth.admin:
+    description: Allows using all KatsIPAuth commands
+    default: op
