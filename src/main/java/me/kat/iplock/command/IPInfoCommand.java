@@ -3,6 +3,11 @@ package me.kat.iplock.command;
 import me.kat.iplock.storage.IPStorage;
 import org.bukkit.command.*;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 public class IPInfoCommand implements CommandExecutor {
 
     private final IPStorage storage;
@@ -26,7 +31,9 @@ public class IPInfoCommand implements CommandExecutor {
         if (e == null) {
             s.sendMessage("No IP data found for player: " + a[0]);
         } else {
-            s.sendMessage("Player: " + a[0] + " | IP: " + e.ip() + " | Bound: " + e.time());
+            LocalDateTime dateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(e.time()), ZoneId.systemDefault());
+            String formattedTime = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            s.sendMessage("Player: " + a[0] + " | IP: " + e.ip() + " | Bound: " + formattedTime);
         }
         return true;
     }
